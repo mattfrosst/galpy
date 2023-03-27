@@ -2154,7 +2154,7 @@ class Orbit:
             raise AttributeError("Integrate the orbit first or use analytic=True for approximate eccentricity")
         rs= self.r(self.t,use_physical=False,dontreshape=True)
         xs= self.x(self.t,use_physical=False,dontreshape=True)
-        xs= self.y(self.t,use_physical=False,dontreshape=True)
+        ys= self.y(self.t,use_physical=False,dontreshape=True)
         idx = numpy.argmax(rs, axis=-1)
         return numpy.array([xs[idx], ys[idx]])
     
