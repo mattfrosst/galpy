@@ -2143,7 +2143,21 @@ class Orbit:
             raise AttributeError("Integrate the orbit first or use analytic=True for approximate eccentricity")
         rs= self.r(self.t,use_physical=False,dontreshape=True)
         return numpy.amax(rs,axis=-1)
-
+    
+    @physical_conversion('position')
+    @shapeDecorator
+    def rapx(self,analytic=False,pot=None,**kwargs):
+        if analytic:
+            self._setup_EccZmaxRperiRap(pot=pot,**kwargs)
+            return self._aA_rap
+        if not hasattr(self,'orbit'):
+            raise AttributeError("Integrate the orbit first or use analytic=True for approximate eccentricity")
+        rs= self.r(self.t,use_physical=False,dontreshape=True)
+        xs= self.x(self.t,use_physical=False,dontreshape=True)
+        xs= self.y(self.t,use_physical=False,dontreshape=True)
+        idx = numpy.argmax(rs, axis=-1)
+        return numpy.array([xs[idx], ys[idx]])
+    
     @physical_conversion('position')
     @shapeDecorator
     def rperi(self,analytic=False,pot=None,**kwargs):
